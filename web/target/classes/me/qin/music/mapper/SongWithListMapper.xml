@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper是根标签，namespace属性：在Mybatis全局范围内找到一个具体的Mapper配置 -->
+<!-- 引入接口后，为了方便通过接口全类名来找到Mapper配置文件，所以通常将namespace属性设置为接口全类名 -->
+<mapper namespace="me.qin.music.mapper.SongWithListMapper">
+
+    <!-- 编写具体的SQL语句，使用id属性唯一的标记一条SQL语句 -->
+    <!-- resultType属性：指定封装查询结果的Java实体类的全类名 -->
+
+
+    <!--    Integer delSongFromList(@Param("songIds") List<Integer> songIds);-->
+    <delete id="delSongFromList" parameterType="java.util.List">
+        delete from song_to_list
+        where
+        <if test="songIds == null or songIds.size == 0">
+            1 = 2
+        </if>
+        <if test="songIds != null and songIds.size != 0">
+                song_id in
+            <foreach item="songId" collection="songIds" open="(" separator="," close=")">
+                #{songId}
+            </foreach>
+        </if>
+    </delete>
+
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.qin.music.mapper.DailyPushSongMapper" >
+
+
+    <resultMap id="BaseResultMap" type="me.qin.music.entity.Song" >
+        <id column="song_id" property="songId" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="author" property="author" jdbcType="VARCHAR" />
+        <result column="album_name" property="albumName" jdbcType="VARCHAR" />
+        <result column="albumcover_url" property="albumcoverUrl" jdbcType="VARCHAR" />
+        <result column="lyric_url" property="lyricUrl" jdbcType="VARCHAR" />
+        <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        song_id, name, author, album_name, albumcover_url, lyric_url, file_url
+    </sql>
+
+    <!--      List<Song> selectDailyPush();  -->
+    <select id="selectDailyPush" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        from daily_push_song
+    </select>
+
+    <!-- void deleteAllField(); -->
+    <delete id="deleteAllField" >
+        delete from daily_push_song
+    </delete>
+    <!--    void updateAllField(Integer n);  -->
+    <update id="updateAllField"  parameterType="java.lang.Integer">
+        insert into daily_Push_Song
+        SELECT <include refid="Base_Column_List" />
+        FROM song
+        WHERE song_id >= ((SELECT MAX(song_id) FROM song)-(SELECT MIN(song_id) FROM song)) * RAND() + (SELECT MIN(song_id) FROM song)
+        LIMIT #{n}
+    </update>
+</mapper>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xml:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>welcome</title>
+</head>
+<body>
+    <div style="width: 200px;height: 200px">
+        <img src="static/ProfilePhoto.png" width="100%" height="auto">
+    </div>
+    <h1>Welcome!</h1>
+    <h1>index.html</h1>
+    <p><a th:href="@{slogin}"><button>登录</button></a>
+
+    <p><a th:href="@{test/message}"><button>获取json消息</button></a>
+    <p><a th:href="@{test/song}"><button>获取list集合</button></a>
+    <p><a th:href="@{test/map}"><button>获取map中的lsit集合</button></a>
+
+    <div style="border:solid 1px black">
+        <form method="get" th:action="@{search}">
+            <input type="text" name="searchInfo"> <button type="submit">提交</button> <br />
+            <input type="checkbox" name="range" value="song" id="s_song"> <label for="s_song">歌曲</label>
+            <input type="checkbox" name="range" value="singer" id="s_singer"> <label for="s_singer">作者</label>
+            <input type="checkbox" name="range" value="playList" id="s_playList"> <label for="s_playList">歌单</label>
+            <input type="checkbox" name="range" value="album" id="s_album"> <label for="s_album">专辑</label>
+        </form>
+    </div>
+
+    <p><a th:href="@{/dailyPush}"><button>获取首页歌曲</button></a>
+    <p><a th:href="@{albumList/1}"><button>获取首页歌单</button></a>
+    <p><a th:href="@{singerList/1}"><button>获取首页歌手</button></a>
+
+    <p><a th:href="@{playlistDetail/24}"><button>获取公开歌单</button></a>
+
+</body>
+</html>

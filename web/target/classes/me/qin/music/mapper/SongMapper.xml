@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.qin.music.mapper.SongMapper" >
+  <resultMap id="BaseResultMap" type="me.qin.music.entity.Song" >
+    <id column="song_id" property="songId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="album_name" property="albumName" jdbcType="VARCHAR" />
+    <result column="albumcover_url" property="albumcoverUrl" jdbcType="VARCHAR" />
+    <result column="lyric_url" property="lyricUrl" jdbcType="VARCHAR" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    song_id, name, author, album_name, albumcover_url, lyric_url, file_url
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="me.qin.music.entity.SongExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from song
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from song
+    where song_id = #{songId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from song
+    where song_id = #{songId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="me.qin.music.entity.SongExample" >
+    delete from song
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="me.qin.music.entity.Song"  useGeneratedKeys="true" keyProperty="songId">
+    insert into song (song_id, name, author, 
+      album_name, albumcover_url, lyric_url, 
+      file_url)
+    values (#{songId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{albumName,jdbcType=VARCHAR}, #{albumcoverUrl,jdbcType=VARCHAR}, #{lyricUrl,jdbcType=VARCHAR}, 
+      #{fileUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="me.qin.music.entity.Song" >
+    insert into song
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="songId != null" >
+        song_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="albumName != null" >
+        album_name,
+      </if>
+      <if test="albumcoverUrl != null" >
+        albumcover_url,
+      </if>
+      <if test="lyricUrl != null" >
+        lyric_url,
+      </if>
+      <if test="fileUrl != null" >
+        file_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="songId != null" >
+        #{songId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="albumName != null" >
+        #{albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="albumcoverUrl != null" >
+        #{albumcoverUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="lyricUrl != null" >
+        #{lyricUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        #{fileUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="me.qin.music.entity.SongExample" resultType="java.lang.Integer" >
+    select count(*) from song
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update song
+    <set >
+      <if test="record.songId != null" >
+        song_id = #{record.songId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.albumName != null" >
+        album_name = #{record.albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.albumcoverUrl != null" >
+        albumcover_url = #{record.albumcoverUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lyricUrl != null" >
+        lyric_url = #{record.lyricUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileUrl != null" >
+        file_url = #{record.fileUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update song
+    set song_id = #{record.songId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      album_name = #{record.albumName,jdbcType=VARCHAR},
+      albumcover_url = #{record.albumcoverUrl,jdbcType=VARCHAR},
+      lyric_url = #{record.lyricUrl,jdbcType=VARCHAR},
+      file_url = #{record.fileUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="me.qin.music.entity.Song" >
+    update song
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="albumName != null" >
+        album_name = #{albumName,jdbcType=VARCHAR},
+      </if>
+      <if test="albumcoverUrl != null" >
+        albumcover_url = #{albumcoverUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="lyricUrl != null" >
+        lyric_url = #{lyricUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        file_url = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where song_id = #{songId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="me.qin.music.entity.Song" >
+    update song
+    set name = #{name,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      album_name = #{albumName,jdbcType=VARCHAR},
+      albumcover_url = #{albumcoverUrl,jdbcType=VARCHAR},
+      lyric_url = #{lyricUrl,jdbcType=VARCHAR},
+      file_url = #{fileUrl,jdbcType=VARCHAR}
+    where song_id = #{songId,jdbcType=INTEGER}
+  </update>
+
+</mapper>
